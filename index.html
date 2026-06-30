@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Inti || Landing Page</title>
+    <!-- Font futuristik/mekanikal untuk gaya Transformers -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Palet warna Autobot/Sci-fi */
+            --bg-color: #0b0c10;
+            --tile-bg: rgba(31, 40, 51, 0.7);
+            --accent-blue: #45a29e;
+            --accent-red: #e63946;
+            --neon-glow: 0 0 10px rgba(69, 162, 158, 0.5);
+            --text-main: #c5c6c7;
+            --text-bright: #66fcf1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(rgba(11, 12, 16, 0.9), rgba(11, 12, 16, 0.9)),
+                url('https://www.transparenttextures.com/patterns/cubes.png');
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 40px;
+            text-align: left;
+            border-left: 5px solid var(--accent-red);
+            padding-left: 20px;
+            animation: slideIn 1s ease-out;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--text-bright);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: var(--neon-glow);
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Konsep Windows 8 Metro Grid */
+        .metro-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 150px);
+            grid-auto-rows: 150px;
+            gap: 15px;
+            max-width: 900px;
+            perspective: 1000px;
+        }
+
+        /* Gaya Tile (Kotak) Modern + Transformers */
+        .tile {
+            background: var(--tile-bg);
+            border: 1px solid rgba(102, 252, 241, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 15px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            /* Sudut terpotong khas mecha/sci-fi */
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+            animation: flipIn 0.8s ease-out forwards;
+            opacity: 0;
+            transform: rotateX(-90deg);
+        }
+
+        .tile::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+        }
+
+        .tile:hover::before {
+            left: 125%;
+        }
+
+        .tile:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(102, 252, 241, 0.4);
+            border-color: var(--accent-blue);
+            z-index: 10;
+        }
+
+        .tile.red:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(230, 57, 70, 0.4);
+        }
+
+        /* Ukuran Tile */
+        .tile-wide { grid-column: span 2; }
+        .tile-large { grid-column: span 2; grid-row: span 2; }
+
+        .tile-icon {
+            font-size: 3rem;
+            margin-bottom: auto;
+            align-self: flex-end;
+            color: var(--text-bright);
+        }
+
+        .tile.red .tile-icon {
+            color: var(--accent-red);
+        }
+
+        .tile-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        .tile-desc {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            margin-top: 5px;
+            z-index: 2;
+        }
+
+        /* Delay Animasi untuk efek bertahap */
+        .tile:nth-child(1) { animation-delay: 0.1s; }
+        .tile:nth-child(2) { animation-delay: 0.2s; }
+        .tile:nth-child(3) { animation-delay: 0.3s; }
+        .tile:nth-child(4) { animation-delay: 0.4s; }
+        .tile:nth-child(5) { animation-delay: 0.5s; }
+        .tile:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Keyframes */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes flipIn {
+            to { opacity: 1; transform: rotateX(0); }
+        }
+
+        /* Responsivitas untuk layar kecil */
+        @media (max-width: 700px) {
+            .metro-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 150px;
+                width: 100%;
+            }
+            .tile-wide { grid-column: span 2; }
+            .tile-large { grid-column: span 2; grid-row: span 2; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MIKHAEL TUNAS</h1>
+        <p class="subtitle">DOXTUNS</p>
+    </header>
+
+    <div class="metro-grid">
+        <!-- Tile 1: Profil (Besar) -->
+        <a href="#" class="tile tile-large">
+            <div class="tile-icon">⚙️</div>
+            <div class="tile-title">MODUL UTAMA</div>
+            <div class="tile-desc">Sistem administrator dan pusat kontrol pengembangan aplikasi sekolah.</div>
+        </a>
+
+        <!-- Tile 2: Exambrowser (Lebar) -->
+        <a href="#" class="tile tile-wide red">
+            <div class="tile-icon">🛡️</div>
+            <div class="tile-title">LAPORAN KEUANGAN</div>
+            <div class="tile-desc">PKPG JEMAAT EBEN HAEZER MANGKIT.</div>
+        </a>
+
+        <!-- Tile 3: Sistem DKN (Kotak) -->
+        <a href="#" class="tile">
+            <div class="tile-icon">📊</div>
+            <div class="tile-title">SISTEM DKN</div>
+            <div class="tile-desc">Rekap nilai digital.</div>
+        </a>
+
+        <!-- Tile 4: Virtual Lab (Kotak) -->
+        <a href="#" class="tile">
+            <div class="tile-icon">🧪</div>
+            <div class="tile-title">LAB AI</div>
+            <div class="tile-desc">Eksperimen virtual berbasis AI.</div>
+        </a>
+
+        <!-- Tile 5: Repositori GitHub (Lebar) -->
+        <a href="https://github.com/username-anda" class="tile tile-wide" target="_blank">
+            <div class="tile-icon">💻</div>
+            <div class="tile-title">REPOSITORI KODE</div>
+            <div class="tile-desc">Akses ke basis kode GitHub Pages & Apps Script.</div>
+        </a>
+    </div>
+
+</body>
+</html>

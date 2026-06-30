@@ -12,7 +12,7 @@
       margin: 0;
       padding: 0;
       background-color: #f8f9fc;
-      overflow: hidden; /* Mencegah double scrollbar di browser */
+      overflow: hidden; /* Mencegah double scrollbar */
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
@@ -46,10 +46,37 @@
       color: white;
     }
 
-    /* Area Iframe */
+    /* Banner Download PDF (Dibuat Kentara) */
+    .download-banner {
+      background-color: #ffffff;
+      border-bottom: 2px solid #e3e6f0;
+      height: 55px;
+      padding: 0 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .btn-download-pdf {
+      background: linear-gradient(135deg, #e74a3b, #c0392b);
+      color: white !important;
+      font-weight: 700;
+      font-size: 13px;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 15px;
+      width: 100%;
+      max-width: 500px; /* Lebar maksimal tombol agar rapi di tablet/PC */
+      text-align: center;
+      box-shadow: 0 3px 6px rgba(231, 74, 59, 0.3);
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+    .btn-download-pdf:active {
+      transform: scale(0.98);
+    }
+
+    /* Area Iframe (Tinggi dinamis dikurangi tinggi navbar & banner) */
     .iframe-container {
       position: relative;
-      height: calc(100% - 60px); /* Sisa layar setelah dikurangi tinggi navbar */
+      height: calc(100% - 115px); /* 60px navbar + 55px banner */
       width: 100%;
     }
     iframe {
@@ -58,7 +85,7 @@
       border: none;
     }
 
-    /* Fitur Menarik: Loading Screen Khusus Iframe */
+    /* Loading Screen Khusus Iframe */
     .iframe-loader {
       position: absolute;
       top: 0;
@@ -74,11 +101,11 @@
       transition: opacity 0.4s ease;
     }
     
-    /* Tipografi di HP */
     @media (max-width: 576px) {
       .navbar-title { font-size: 14px; }
-      .btn-nav span { display: none; } /* Sembunyikan teks tombol di HP, sisakan ikon saja */
+      .btn-nav span { display: none; } /* Sembunyikan teks 'Home', sisakan ikon di HP */
       .btn-nav { padding: 6px 10px; }
+      .btn-download-pdf { font-size: 12px; padding: 7px 10px; }
     }
   </style>
 </head>
@@ -103,6 +130,12 @@
     </div>
   </nav>
 
+  <div class="download-banner d-flex align-items-center justify-content-center">
+    <a href="#" id="pdfDownloadLink" class="btn-download-pdf" target="_blank">
+      <i class="fas fa-file-pdf me-2"></i>UNDUH LAPORAN PDF (LPJ) DI SINI
+    </a>
+  </div>
+
   <div class="iframe-container">
     
     <div id="iframeLoader" class="iframe-loader">
@@ -121,25 +154,21 @@
   </div>
 
   <script>
-    // Fungsi untuk menghilangkan efek loading ketika iframe telah selesai memuat konten sepenuhnya
     function hideLoader() {
       const loader = document.getElementById('iframeLoader');
       loader.style.opacity = '0';
       setTimeout(() => {
         loader.style.display = 'none';
-      }, 400); // Durasi animasi fade-out
+      }, 400);
     }
 
-    // Fitur Menarik: Refresh data BKU di dalam iframe tanpa mengganggu halaman utama github
     function refreshIframe() {
       const loader = document.getElementById('iframeLoader');
       const iframe = document.getElementById('lpjIframe');
       
-      // Tampilkan kembali loading screen
       loader.style.display = 'flex';
       loader.style.opacity = '1';
       
-      // Reset source iframe untuk memicu reload data fresh dari Apps Script
       iframe.src = iframe.src;
     }
   </script>

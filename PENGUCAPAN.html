@@ -3,36 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Keuangan Thanksgiving</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Aplikasi Keuangan Thanksgiving</title>
     <style>
-        body { background-color: #f8f9fa; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        .card-menu { border: none; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        /* Mengatur agar halaman full screen dan tidak ada jarak (margin) */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Mencegah scroll ganda */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        /* Desain Navbar Atas */
+        .navbar {
+            background-color: #0d6efd; /* Warna biru senada dengan aplikasi Anda */
+            color: white;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            height: 55px; /* Tinggi navbar */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        /* Tombol Home */
+        .btn-home {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .btn-home:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .navbar-title {
+            margin-left: 15px;
+            font-weight: 600;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Desain Iframe (Tempat Web App dimuat) */
+        .app-container {
+            margin-top: 55px; /* Mendorong konten ke bawah sejauh tinggi navbar */
+            width: 100%;
+            height: calc(100% - 55px); /* Sisa tinggi layar untuk aplikasi */
+            border: none;
+            display: block;
+        }
     </style>
 </head>
 <body>
 
-<div class="container d-flex align-items-center justify-content-center vh-100" style="max-width: 450px;">
-    <div class="card card-menu w-100 p-4 text-center bg-white">
-        
-        <div class="mb-3" style="font-size: 50px;">🦃</div>
-        <h4 class="fw-bold text-dark mb-1">Thanksgiving Apps</h4>
-        <p class="text-muted small mb-4">Sistem Pencatatan Keuangan & Rencana Belanja Koki</p>
-        
-        <a href="https://script.google.com/macros/s/AKfycbzE2lBjaYkft1eEk-2oCpZ8uAgF-93u_hGVZrLGeDpVJfbL9ORmNrJnRTlg-llMISLj_A/exec" 
-           class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow-sm mb-3" style="font-size: 16px;">
-           🚀 Buka Aplikasi Keuangan
+    <div class="navbar">
+        <a href="index.html" class="btn-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+            </svg>
+            Home
         </a>
-
-        <a href="index.html" class="btn btn-light w-100 py-2 text-muted small rounded-pill">
-           🔄 Refresh Menu
-        </a>
-
-        <div class="mt-4 pt-3 border-top text-muted" style="font-size: 11px;">
-            Dibuat menggunakan Google Apps Script & GitHub Pages
-        </div>
+        <div class="navbar-title">Panel Keuangan</div>
     </div>
-</div>
+
+    <iframe class="app-container" src="https://script.google.com/macros/s/AKfycbzE2lBjaYkft1eEk-2oCpZ8uAgF-93u_hGVZrLGeDpVJfbL9ORmNrJnRTlg-llMISLj_A/exec" allowfullscreen></iframe>
 
 </body>
 </html>

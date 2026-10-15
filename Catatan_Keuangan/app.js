@@ -23,6 +23,8 @@ const IC = {
   out: '<line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>',
   in: '<line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/>',
   copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  eye: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+  eyeOff: '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>',
   clip: '<path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>'
 };
 const icon = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
@@ -1120,7 +1122,7 @@ function bindPengaturan() {
   });
   area.addEventListener('change', (e) => {
     const t = e.target;
-    if (t.dataset.saldo !== undefined) { S.sources[+t.dataset.saldo].saldoAwal = Number(t.value.replace(/[^\d-]/g, '')) || 0; saveS(true); toast('Saldo awal disimpan', 'ok'); sync({ pull: false }); }
+    if (t.dataset.saldo !== undefined) { S.sources[+t.dataset.saldo].saldoAwal = Number(t.value.replace(/[^\d-]/g, '')) || 0; saveS(true); renderSaldoBar(); toast('Saldo awal disimpan', 'ok'); sync({ pull: false }); }
     if (t.id === 'budgetInp') { S.budget = parseAmount(t.value); saveS(true); toast('Budget disimpan', 'ok'); sync({ pull: false }); }
     if (t.id === 'devInp') { S.device = t.value.trim() || S.device; saveS(); }
   });
@@ -1194,7 +1196,21 @@ function toServer(r) {
   o.fotoData = r.foto && !r.fotoUrl ? r.foto : '';
   return o;
 }
+/* --- saldo di header --- */
+let hideSaldo = false;
+try { hideSaldo = localStorage.getItem('ck_hide_saldo') === '1'; } catch (e) { /* abaikan */ }
+function renderSaldoBar() {
+  const list = saldoTable('', false);
+  const total = sum(list, (s) => s.saldo);
+  const show = (n) => (hideSaldo ? 'Rp ••••••' : rp(n));
+  $('#saldoList').innerHTML =
+    `<button type="button" class="saldo-item total ${total < 0 ? 'neg' : ''}" data-go="laporan"><span>Total saldo</span><b>${show(total)}</b></button>` +
+    list.map((s) => `<button type="button" class="saldo-item ${s.saldo < 0 ? 'neg' : ''}" data-go="laporan"><span>${esc(s.name)}</span><b>${show(s.saldo)}</b></button>`).join('');
+  $('#btnEye').innerHTML = icon(hideSaldo ? 'eyeOff' : 'eye');
+}
+
 function updateSyncChip() {
+  renderSaldoBar();
   const el = $('#syncChip'); const p = DB.all.filter((r) => !r.synced).length;
   let cls, txt;
   if (SY.running) { cls = 'busy'; txt = 'Menyinkron…'; }
@@ -1356,6 +1372,11 @@ function refreshClock() {
   $('#btnUpdate').addEventListener('click', () => checkUpdate(true));
   $('#btnInstall').addEventListener('click', doInstall);
   $('#syncChip').addEventListener('click', () => { if (!S.scriptUrl) go('pengaturan'); else sync({ silent: false }); });
+  $('#btnEye').addEventListener('click', () => {
+    hideSaldo = !hideSaldo;
+    try { localStorage.setItem('ck_hide_saldo', hideSaldo ? '1' : '0'); } catch (e) { /* abaikan */ }
+    renderSaldoBar();
+  });
   $('#sheetClose').addEventListener('click', closeSheet);
   $('#sheetBg').addEventListener('click', closeSheet);
   $('#camInput').addEventListener('change', onPhotoPicked);

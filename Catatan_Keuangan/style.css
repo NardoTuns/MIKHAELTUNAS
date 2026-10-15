@@ -1,7 +1,7 @@
 /* ================= Catatan Keuangan - style.css ================= */
 :root {
   color-scheme: light;
-  --brand: #0f766e; --brand-ink: #ffffff; --brand-soft: #e3f2ef;
+  --brand: #0f766e; --brand-ink: #ffffff; --brand-soft: #e3f2ef; --neg-ink: #ffd2d2;
   --bg: #f3f4f1; --surface: #ffffff; --surface2: #f6f6f3;
   --text: #0b0b0b; --text2: #52514e; --muted: #77756f;
   --line: #e4e3dd; --grid: #e1e0d9; --axis: #c3c2b7;
@@ -16,7 +16,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --brand: #2bb3a3; --brand-ink: #04201c; --brand-soft: #12302c;
+    --brand: #2bb3a3; --brand-ink: #04201c; --brand-soft: #12302c; --neg-ink: #7a0f0f;
     --bg: #0d0d0d; --surface: #1a1a19; --surface2: #232321;
     --text: #f0efec; --text2: #c3c2b7; --muted: #8f8d86;
     --line: #2f2f2c; --grid: #2c2c2a; --axis: #383835;
@@ -29,7 +29,7 @@
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --brand: #2bb3a3; --brand-ink: #04201c; --brand-soft: #12302c;
+  --brand: #2bb3a3; --brand-ink: #04201c; --brand-soft: #12302c; --neg-ink: #7a0f0f;
   --bg: #0d0d0d; --surface: #1a1a19; --surface2: #232321;
   --text: #f0efec; --text2: #c3c2b7; --muted: #8f8d86;
   --line: #2f2f2c; --grid: #2c2c2a; --axis: #383835;
@@ -82,6 +82,18 @@ main { padding: 12px 14px calc(var(--nav-h) + 24px + env(safe-area-inset-bottom)
   border: 0; border-radius: 999px; padding: 7px 14px; font-weight: 700; font-size: 13px;
   background: #fff; color: #0f766e;
 }
+.saldo-bar { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.saldo-list { flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.saldo-list::-webkit-scrollbar { display: none; }
+.saldo-item {
+  flex: none; border: 0; background: rgba(255,255,255,.14); color: inherit; border-radius: 10px;
+  padding: 4px 10px; text-align: left; line-height: 1.25;
+}
+.saldo-item span { display: block; font-size: 11px; opacity: .85; white-space: nowrap; }
+.saldo-item b { display: block; font-size: 14px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.saldo-item.total { background: rgba(255,255,255,.26); }
+.saldo-item.neg b { color: var(--neg-ink); }
+.saldo-eye { flex: none; border: 0; background: transparent; color: inherit; width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; opacity: .9; }
 .tb-sub { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 12px; }
 .btn-update {
   display: inline-flex; align-items: center; gap: 5px;

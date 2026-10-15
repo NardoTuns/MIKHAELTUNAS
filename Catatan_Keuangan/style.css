@@ -83,17 +83,17 @@ main { padding: 12px 14px calc(var(--nav-h) + 24px + env(safe-area-inset-bottom)
   background: #fff; color: #0f766e;
 }
 .saldo-bar { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
-.saldo-list { flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
-.saldo-list::-webkit-scrollbar { display: none; }
+.saldo-list { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); gap: 4px; }
 .saldo-item {
-  flex: none; border: 0; background: rgba(255,255,255,.14); color: inherit; border-radius: 10px;
-  padding: 4px 10px; text-align: left; line-height: 1.25;
+  min-width: 0; border: 0; background: rgba(255,255,255,.14); color: inherit; border-radius: 8px;
+  padding: 3px 5px; text-align: left; line-height: 1.2;
 }
-.saldo-item span { display: block; font-size: 11px; opacity: .85; white-space: nowrap; }
-.saldo-item b { display: block; font-size: 14px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.saldo-item span { display: block; font-size: 10px; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.saldo-item b { display: block; font-size: clamp(10.5px, 3vw, 12px); font-variant-numeric: tabular-nums; white-space: nowrap; letter-spacing: -.2px; }
+.saldo-item b small { font-size: 9px; font-weight: 600; margin-right: 1px; opacity: .85; }
 .saldo-item.total { background: rgba(255,255,255,.26); }
 .saldo-item.neg b { color: var(--neg-ink); }
-.saldo-eye { flex: none; border: 0; background: transparent; color: inherit; width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; opacity: .9; }
+.saldo-eye { flex: none; border: 0; background: transparent; color: inherit; width: 28px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; opacity: .9; }
 .tb-sub { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 12px; }
 .btn-update {
   display: inline-flex; align-items: center; gap: 5px;

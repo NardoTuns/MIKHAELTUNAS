@@ -1202,9 +1202,10 @@ try { hideSaldo = localStorage.getItem('ck_hide_saldo') === '1'; } catch (e) { /
 function renderSaldoBar() {
   const list = saldoTable('', false);
   const total = sum(list, (s) => s.saldo);
-  const show = (n) => (hideSaldo ? 'Rp ••••••' : rp(n));
+  // di atas 10 juta ditulis ringkas (mis. 124,6 jt) agar muat; angka lengkap ada di Laporan
+  const show = (n) => `<small>Rp</small>${hideSaldo ? '•••••' : Math.abs(n) >= 1e7 ? rpShort(n) : (n < 0 ? '-' : '') + num(Math.abs(n))}`;
   $('#saldoList').innerHTML =
-    `<button type="button" class="saldo-item total ${total < 0 ? 'neg' : ''}" data-go="laporan"><span>Total saldo</span><b>${show(total)}</b></button>` +
+    `<button type="button" class="saldo-item total ${total < 0 ? 'neg' : ''}" data-go="laporan"><span>Total</span><b>${show(total)}</b></button>` +
     list.map((s) => `<button type="button" class="saldo-item ${s.saldo < 0 ? 'neg' : ''}" data-go="laporan"><span>${esc(s.name)}</span><b>${show(s.saldo)}</b></button>`).join('');
   $('#btnEye').innerHTML = icon(hideSaldo ? 'eyeOff' : 'eye');
 }

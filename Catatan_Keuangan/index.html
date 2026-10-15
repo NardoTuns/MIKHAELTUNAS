@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Catatan Keuangan</title>
+  <meta name="description" content="Catat uang masuk & keluar keluarga, tersimpan di HP dan tersinkron ke Google Spreadsheet.">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Keuangan">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="version.js"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ HEADER ============ -->
+  <header class="topbar">
+    <div class="tb-row">
+      <img class="tb-logo" src="icons/icon-192.png" alt="">
+      <div class="tb-title">
+        <h1>Catatan Keuangan</h1>
+        <button id="syncChip" class="sync-chip" type="button"><i></i>Memuat…</button>
+      </div>
+      <button id="btnInstall" class="btn-install" type="button" hidden>Install</button>
+    </div>
+    <div class="tb-sub">
+      <button id="btnUpdate" class="btn-update" type="button">Update</button>
+      <span id="verText" class="ver-text"></span>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ CATAT ============ -->
+    <section class="view" id="v-catat">
+      <div class="card">
+        <div class="lbl">Siapa yang input?</div>
+        <div id="personBtns" class="persons"></div>
+
+        <div class="row2 mt">
+          <label class="field">
+            <span class="lbl">Tanggal</span>
+            <input id="fTanggal" type="date" class="inp">
+          </label>
+          <label class="field">
+            <span class="lbl">Jam</span>
+            <input id="fJam" type="time" class="inp">
+          </label>
+        </div>
+        <div class="date-hint"><span id="fHari"></span><button id="btnNow" type="button" class="link-btn">Atur ke sekarang</button></div>
+      </div>
+
+      <div id="items"></div>
+
+      <button id="btnAddItem" type="button" class="btn dashed block">+ Tambah Belanja</button>
+
+      <div id="todayBox" class="card today-box"></div>
+
+      <div class="savebar">
+        <div class="savebar-inner">
+          <div id="formTotal" class="form-total"></div>
+          <button id="btnSimpan" type="button" class="btn primary big">Simpan</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RIWAYAT ============ -->
+    <section class="view" id="v-riwayat" hidden>
+      <div class="search-wrap">
+        <input id="rCari" class="inp" type="search" placeholder="Cari uraian, keterangan, kategori…">
+      </div>
+      <div class="filter-row">
+        <select id="rBulan" class="inp sm"></select>
+        <select id="rOrang" class="inp sm"></select>
+      </div>
+      <div id="rJenis" class="chips mt-s"></div>
+      <div id="rSummary" class="mini-sum"></div>
+      <div id="rList"></div>
+    </section>
+
+    <!-- ============ LAPORAN ============ -->
+    <section class="view" id="v-laporan" hidden>
+      <div class="card">
+        <div class="filter-row">
+          <label class="field"><span class="lbl">Periode</span>
+            <select id="lPeriode" class="inp sm">
+              <option value="hari">Hari ini</option>
+              <option value="kemarin">Kemarin</option>
+              <option value="minggu">Minggu ini</option>
+              <option value="7hari">7 hari terakhir</option>
+              <option value="bulan" selected>Bulan ini</option>
+              <option value="bulanlalu">Bulan lalu</option>
+              <option value="30hari">30 hari terakhir</option>
+              <option value="tahun">Tahun ini</option>
+              <option value="semua">Semua data</option>
+              <option value="custom">Pilih tanggal…</option>
+            </select>
+          </label>
+          <label class="field"><span class="lbl">Sumber dana</span>
+            <select id="lSumber" class="inp sm"></select>
+          </label>
+        </div>
+        <div id="lCustom" class="row2 mt-s" hidden>
+          <label class="field"><span class="lbl">Dari</span><input id="lDari" type="date" class="inp sm"></label>
+          <label class="field"><span class="lbl">Sampai</span><input id="lSampai" type="date" class="inp sm"></label>
+        </div>
+        <div class="lbl mt-s">Penginput</div>
+        <div id="lOrang" class="chips"></div>
+      </div>
+      <div class="export-row">
+        <button type="button" class="btn sm" data-exp="png">PNG</button>
+        <button type="button" class="btn sm" data-exp="pdf">PDF</button>
+        <button type="button" class="btn sm" data-exp="csv">Excel/CSV</button>
+        <button type="button" class="btn sm" data-exp="share">Bagikan</button>
+      </div>
+      <div id="reportArea" class="report"></div>
+    </section>
+
+    <!-- ============ ANALISIS ============ -->
+    <section class="view" id="v-analisis" hidden>
+      <div class="card row-between">
+        <span class="lbl m0">Bulan dianalisis</span>
+        <input id="aBulan" type="month" class="inp sm w-auto">
+      </div>
+      <div id="anaArea"></div>
+    </section>
+
+    <!-- ============ PENGATURAN ============ -->
+    <section class="view" id="v-pengaturan" hidden>
+      <div id="setArea"></div>
+    </section>
+  </main>
+
+  <!-- ============ NAV BAWAH ============ -->
+  <nav class="bottomnav" id="nav"></nav>
+</div>
+
+<!-- input foto tersembunyi -->
+<input id="camInput" type="file" accept="image/*" capture="environment" hidden>
+<input id="galInput" type="file" accept="image/*" hidden>
+<input id="restoreInput" type="file" accept="application/json,.json" hidden>
+
+<!-- lembar bawah (bottom sheet) & dialog -->
+<div id="sheetBg" class="sheet-bg" hidden></div>
+<div id="sheet" class="sheet" hidden role="dialog" aria-modal="true">
+  <div class="sheet-head"><b id="sheetTitle"></b><button type="button" class="icon-btn" id="sheetClose" aria-label="Tutup">✕</button></div>
+  <div id="sheetBody" class="sheet-body"></div>
+</div>
+<div id="dlgBg" class="dlg-bg" hidden>
+  <div class="dlg" role="alertdialog">
+    <div id="dlgMsg" class="dlg-msg"></div>
+    <div class="dlg-btns"><button type="button" class="btn" id="dlgNo">Batal</button><button type="button" class="btn primary" id="dlgYes">Ya</button></div>
+  </div>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="lib/chart.umd.min.js" defer></script>
+<script src="lib/html2canvas.min.js" defer></script>
+<script src="lib/jspdf.umd.min.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>

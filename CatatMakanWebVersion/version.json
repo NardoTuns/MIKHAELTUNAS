@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "date": "2026-10-25",
+  "changes": [
+    "Versi web pertama Catat Makan: bisa dipasang di Android & iPhone, jalan tanpa internet",
+    "Banyak pengguna dalam satu HP, ganti pengguna dengan sekali ketuk (PIN opsional)",
+    "Sinkron ke Google Spreadsheet; data yang sudah tersinkron tetap ada di HP",
+    "Catat cepat dengan teks bebas, kalender catatan, lencana pencapaian, penghitung puasa",
+    "Pengingat ke Kalender HP (.ics), cadangan & pulihkan file, tombol Update"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": "2.1.0",
+  "date": "2026-11-02",
+  "changes": [
+    "Akun utama (pemilik, data aplikasi Android) terkunci: hanya bisa dilihat di web. Istri & anak mencatat lewat akun masing-masing",
+    "Rekap Gizi AI lengkap (27 zat gizi vs AKG 2019) dan Rekap Keluarga dengan menu keluarga & daftar belanja",
+    "Gizi anak & remaja memakai AKG 2019, tanpa target turun berat",
+    "Catat juga untuk anggota lain saat makan bersama",
+    "Tautan undangan sinkron untuk HP istri/anak (butuh Code.gs 2.1)"
+  ]
+}
